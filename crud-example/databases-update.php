@@ -8,12 +8,17 @@
       die("Database connection failed: " . mysqli_connect_error() . " (" . mysqli_connect_errno() . ").");
   }
 
+  $id = $_GET['id'];
+
   if (isset($_POST['submit'])) {
     $menu_name = $_POST['menu_name'];
     $position = $_POST['position'];
     $visible = $_POST['visible'];
-    $query = "INSERT INTO subjects (menu_name, position, visible)
-            VALUES ('{$menu_name}', {$position}, {$visible})";
+    $query = "UPDATE subjects SET
+            menu_name = '{$menu_name}',
+            position = {$position},
+            visible = {$visible}
+            WHERE id = {$id}";
     $result = mysqli_query($connection, $query);
   }  
 ?>
@@ -42,9 +47,11 @@
       } else {
         echo "Ebaõnnestus";
       }
+
+      echo $query;
     }
     ?>
-    <form action="databases-create.php" method="post">
+    <form action="databases-update.php?id=<?php echo $id; ?>" method="post">
       <div class="form-field">
         <label for="menu_name" class="form-label">Pealkiri</label>
         <input id="menu_name" name="menu_name">
