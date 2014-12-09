@@ -1,12 +1,7 @@
-<?php 
-	$dbhost = "localhost";
-	$dbuser = "widget_cms";
-	$dbpass = "topsikmuhv";
-	$dbname = "widget_corp";
-	$connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-	if (mysqli_connect_errno()) {
-			die("Database connection failed: " . mysqli_connect_error() . " (" . mysqli_connect_errno() . ").");
-	}
+<?php if (!isset($_GET['id']) or $_GET != 0) {
+    header('location: index.php');
+  }
+  require('Components/config.php');
 	$id = $_GET['id'];
 
 	$query = "DELETE FROM subjects where id= {$id}";
@@ -17,6 +12,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="2; url=index.php/">
     <title>Document</title>
     <style>
 	    .notice {
@@ -34,6 +30,7 @@
 	<?php } else { ?>
 	  <p class="error"><?php echo "Sellist rida andmebaasis ei ole"; ?></p>
 	<?php } ?>
+
   </body>
 </html>
 

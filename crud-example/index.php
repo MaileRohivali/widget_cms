@@ -1,13 +1,6 @@
 <?php 
-	$dbhost = "localhost";
-	$dbuser = "widget_cms";
-	$dbpass = "topsikmuhv";
-	$dbname = "widget_corp";
-	$connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-	if (mysqli_connect_errno()) {
-			die("Database connection failed: " . mysqli_connect_error() . " (" . mysqli_connect_errno() . ").");
-	}
-	$query = "SELECT * FROM subjects";
+	require('Components/config.php');
+	$query = "SELECT * FROM subjects where visible=1 order by position";
 	$result = mysqli_query($connection, $query);
 	
 ?>
@@ -19,14 +12,20 @@
   </head>
 
   <body>
-  	<a href="databases-create.php">Lisa</a>
   	<ul>
+  		<?php if($editmode) { ?>
+  		<li>
+  			<a href="databases-create.php">Lisa uus</a>
+  		</li>
+  	<?php } ?>
 	<?php
 	while ($subject = mysqli_fetch_assoc($result)) { ?>
 		<li> 
 			<?php echo $subject['menu_name']; ?>
+			<?php if($editmode) { ?>
 			<a href="databases-update.php?id=<?php echo $subject['id']; ?>">Muuda</a>
 			<a href="databases-delete.php?id=<?php echo $subject['id']; ?>">Kustuta</a>
+			<?php } ?>
 		</li>
 	<?php }	?>
 	</ul>

@@ -1,13 +1,8 @@
 <?php 
-  $dbhost = "localhost";
-  $dbuser = "widget_cms";
-  $dbpass = "topsikmuhv";
-  $dbname = "widget_corp";
-  $connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-  if (mysqli_connect_errno()) {
-      die("Database connection failed: " . mysqli_connect_error() . " (" . mysqli_connect_errno() . ").");
+if (!isset($_GET['id'])) {
+    header('location: index.php');
   }
-
+  require('Components/config.php');
   $id = $_GET['id'];
 
   if (isset($_POST['submit'])) {
@@ -26,6 +21,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <?php if (isset($_POST['submit'])) { ?>
+    <meta http-equiv="refresh" content="2; url=index.php/">
+    <?php  } ?>
     <title>Document</title>
     <style>
       .form-field {
@@ -37,9 +35,6 @@
     </style>
   </head>
   <body>
-    <pre>
-      <?php print_r($_POST);?>
-    </pre>
     <?php 
      if (isset($_POST['submit'])){
         if ($result) {
@@ -47,19 +42,14 @@
       } else {
         echo "Ebaõnnestus";
       }
-
-      echo $query;
     }
     ?>
-    <form action="databases-update.php?id=<?php echo $id; ?>" method="post">
+    <?php if (!isset($_POST['submit'])) { ?>
+     <form action="databases-update.php?id=<?php echo $id; ?>" method="post">
       <div class="form-field">
         <label for="menu_name" class="form-label">Pealkiri</label>
         <input id="menu_name" name="menu_name">
       </div>
-      <!--<div class="form-field">
-        <label for="position" class="form-label">Positsioon</label>
-        <input id="position" name="position">
-      </div>-->
       <div class="form-field">
         <label for="position" class="form-label">Positsioon</label>
         <select id="position" name="position">
@@ -68,10 +58,6 @@
           <?php } ?>
         </select>
       </div>
-      <!--<div class="form-field">
-        <label for="visible" class="form-label">Nähtavus</label>
-        <input id="visible" name="visible">
-      </div>-->
       <div class="form-field">
         <label for="visible" class="form-label">Nähtavus</label>
         <select id="visible" name="visible">
@@ -83,6 +69,9 @@
         <input name="submit" type="submit">
       </div>
     </form>
+    <a href="index.php">Mine tagasi</a>
+    <?php } ?>
+    
   </body>
 </html>
 
